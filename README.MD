@@ -1,3 +1,7 @@
+# Kpack Builder Backend
+
+*Requires kpack installed and configured*
+
 To use, run in cluster, expose port 8080. supply basic credentials via a secret in the same namespace called `kpack-build-backend`
 that looks like this:
 ```yaml
