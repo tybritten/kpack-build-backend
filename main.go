@@ -30,8 +30,8 @@ func create_update_image(w http.ResponseWriter, r *http.Request, ps httprouter.P
 	if err1 != nil {
 		fmt.Fprintf(w, "Image Failed to create/update with error: "+err.Error())
 		log.Println("Image Failed to create/update with error: ", err)
+		return
 	}
-
 	json.Unmarshal(reqbody, &req)
 	req.Name = name
 	if err != nil {
@@ -39,11 +39,13 @@ func create_update_image(w http.ResponseWriter, r *http.Request, ps httprouter.P
 		if err := create_git_image(req.Name, req.Repo, req.Revision, tag); err != nil {
 			fmt.Fprintf(w, "Image Failed to Create with error: "+err.Error())
 			log.Println("Image Failed to Create with error: ", err)
+			return
 		}
 	} else {
 		if err := update_git_image(req.Name, req.Repo, req.Revision); err != nil {
 			fmt.Fprintf(w, "Image Failed to Update with error: "+err.Error())
 			log.Println("Image Failed to Update with error: ", err)
+			return
 		}
 	}
 	imagestatus, err = get_image_status(req.Name)
