@@ -26,7 +26,12 @@ func create_update_image(w http.ResponseWriter, r *http.Request, ps httprouter.P
 	name := ps.ByName("user") + "-" + ps.ByName("code")
 	imagestatus, err := get_image_status(name)
 	var req ImgReq
-	reqbody, err := ioutil.ReadAll(r.Body)
+	reqbody, err1 := ioutil.ReadAll(r.Body)
+	if err1 != nil {
+		fmt.Fprintf(w, "Image Failed to create/update with error: "+err.Error())
+		log.Println("Image Failed to create/update with error: ", err)
+	}
+
 	json.Unmarshal(reqbody, &req)
 	req.Name = name
 	if err != nil {
